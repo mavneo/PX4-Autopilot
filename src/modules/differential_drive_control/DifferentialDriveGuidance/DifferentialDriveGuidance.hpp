@@ -73,14 +73,14 @@ public:
 
 	/**
 	 * @brief Compute guidance for the vehicle.
-	 * @param global_pos The global position of the vehicle.
-	 * @param current_waypoint The current waypoint the vehicle is heading towards.
-	 * @param next_waypoint The next waypoint the vehicle will head towards after reaching the current waypoint.
-	 * @param vehicle_yaw The yaw orientation of the vehicle.
-	 * @param body_velocity The velocity of the vehicle.
-	 * @param angular_velocity The angular velocity of the vehicle.
-	 * @param dt The time step.
-	 * @return A 2D vector containing the computed guidance.
+	 * @param global_pos The global position of the vehicle in degrees.
+	 * @param current_waypoint The current waypoint the vehicle is heading towards in degrees.
+	 * @param next_waypoint The next waypoint the vehicle will head towards after reaching the current waypoint in degrees.
+	 * @param vehicle_yaw The yaw orientation of the vehicle in radians.
+	 * @param body_velocity The velocity of the vehicle in m/s.
+	 * @param angular_velocity The angular velocity of the vehicle in rad/s.
+	 * @param dt The time step in seconds.
+	 * @return A 2D vector containing the computed guidance (speed in m/s, yaw rate in rad/s).
 	 */
 	matrix::Vector2f computeGuidance(const matrix::Vector2d &global_pos, const matrix::Vector2d &current_waypoint,
 					 const matrix::Vector2d &next_waypoint, float vehicle_yaw,
@@ -88,16 +88,16 @@ public:
 
 	/**
 	 * @brief Set the maximum speed for the vehicle.
-	 * @param max_speed The maximum speed.
-	 * @return The set maximum speed.
+	 * @param max_speed The maximum speed in m/s.
+	 * @return The set maximum speed in m/s.
 	 */
 	float setMaxSpeed(float max_speed) { return _max_speed = max_speed; }
 
 
 	/**
 	 * @brief Set the maximum angular velocity for the vehicle.
-	 * @param max_angular_velocity The maximum angular velocity.
-	 * @return The set maximum angular velocity.
+	 * @param max_angular_velocity The maximum angular velocity in rad/s.
+	 * @return The set maximum angular velocity in rad/s.
 	 */
 	float setMaxAngularVelocity(float max_angular_velocity) { return _max_angular_velocity = max_angular_velocity; }
 

@@ -13,7 +13,7 @@ matrix::Vector2f DifferentialDriveGuidance::computeGuidance(const matrix::Vector
 		float vehicle_yaw, float body_velocity, float angular_velocity, float dt)
 {
 	const float distance_to_next_wp = get_distance_to_next_waypoint(global_pos(0), global_pos(1), current_waypoint(0),
-				    current_waypoint(1));
+					  current_waypoint(1));
 
 	float desired_heading = get_bearing_to_next_waypoint(global_pos(0), global_pos(1), current_waypoint(0),
 				current_waypoint(1));
@@ -82,14 +82,14 @@ void DifferentialDriveGuidance::updateParams()
 	pid_set_parameters(&yaw_rate_pid,
 			   _param_rdd_p_gain_yaw_rate.get(),  // Proportional gain
 			   _param_rdd_i_gain_yaw_rate.get(),  // Integral gain
-			   _param_rdd_d_gain_yaw_rate.get(),  // Derivative gain
+			   0,  // Derivative gain
 			   20,  // Integral limit
 			   200);  // Output limit
 
 	pid_set_parameters(&velocity_pid,
 			   _param_rdd_p_gain_speed.get(),  // Proportional gain
 			   _param_rdd_i_gain_speed.get(),  // Integral gain
-			   _param_rdd_d_gain_speed.get(),  // Derivative gain
+			   0,  // Derivative gain
 			   2,  // Integral limit
 			   200);  // Output limit
 

@@ -74,7 +74,7 @@ void DifferentialDriveControl::Run()
 
 	hrt_abstime now = hrt_absolute_time();
 
-	float dt  = math::min((now - _time_stamp_last), _timeout) / 1e6f;
+	float dt  = math::min((now - _time_stamp_last), kTimeoutUs) / 1e6f;
 	_time_stamp_last = now;
 
 	if (_parameter_update_sub.updated()) {
