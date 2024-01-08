@@ -1,147 +1,886 @@
-<sdf version='1.9'>
-  <world name='default'>
-    <physics type="ode">
-      <max_step_size>0.004</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
-      <real_time_update_rate>250</real_time_update_rate>
-    </physics>
-    <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
-    <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
-    <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
-    <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
-    <plugin name='gz::sim::systems::Imu' filename='gz-sim-imu-system'/>
-    <plugin name='gz::sim::systems::AirPressure' filename='gz-sim-air-pressure-system'/>
-    <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
-      <render_engine>ogre2</render_engine>
-    </plugin>
-    <gui fullscreen='false'>
-      <plugin name='3D View' filename='GzScene3D'>
-        <gz-gui>
-          <title>3D View</title>
-          <property type='bool' key='showTitleBar'>0</property>
-          <property type='string' key='state'>docked</property>
-        </gz-gui>
-        <engine>ogre2</engine>
-        <scene>scene</scene>
-        <ambient_light>0.5984631152222222 0.5984631152222222 0.5984631152222222</ambient_light>
-        <background_color>0.8984631152222222 0.8984631152222222 0.8984631152222222</background_color>
-        <camera_pose>-6 0 6 0 0.5 0</camera_pose>
-      </plugin>
-      <plugin name='World control' filename='WorldControl'>
-        <gz-gui>
-          <title>World control</title>
-          <property type='bool' key='showTitleBar'>0</property>
-          <property type='bool' key='resizable'>0</property>
-          <property type='double' key='height'>72</property>
-          <property type='double' key='width'>121</property>
-          <property type='double' key='z'>1</property>
-          <property type='string' key='state'>floating</property>
-          <anchors target='3D View'>
-            <line own='left' target='left'/>
-            <line own='bottom' target='bottom'/>
-          </anchors>
-        </gz-gui>
-        <play_pause>1</play_pause>
-        <step>1</step>
-        <start_paused>1</start_paused>
-      </plugin>
-      <plugin name='World stats' filename='WorldStats'>
-        <gz-gui>
-          <title>World stats</title>
-          <property type='bool' key='showTitleBar'>0</property>
-          <property type='bool' key='resizable'>0</property>
-          <property type='double' key='height'>110</property>
-          <property type='double' key='width'>290</property>
-          <property type='double' key='z'>1</property>
-          <property type='string' key='state'>floating</property>
-          <anchors target='3D View'>
-            <line own='right' target='right'/>
-            <line own='bottom' target='bottom'/>
-          </anchors>
-        </gz-gui>
-        <sim_time>1</sim_time>
-        <real_time>1</real_time>
-        <real_time_factor>1</real_time_factor>
-        <iterations>1</iterations>
-      </plugin>
-      <plugin name='Entity tree' filename='EntityTree'/>
-    </gui>
-    <gravity>0 0 -9.8</gravity>
-    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type='adiabatic'/>
-    <scene>
-      <grid>false</grid>
-      <ambient>0.4 0.4 0.4 1</ambient>
-      <background>0.7 0.7 0.7 1</background>
-      <shadows>true</shadows>
-    </scene>
-    <model name='ground_plane'>
-      <static>true</static>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>1 1</size>
-            </plane>
-          </geometry>
-          <surface>
-            <friction>
-              <ode/>
-            </friction>
-            <bounce/>
-            <contact/>
-          </surface>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
-          </geometry>
-          <material>
-            <ambient>0.8 0.8 0.8 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <specular>0.8 0.8 0.8 1</specular>
-          </material>
-        </visual>
-        <pose>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <mass>1</mass>
-          <inertia>
-            <ixx>1</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1</iyy>
-            <iyz>0</iyz>
-            <izz>1</izz>
-          </inertia>
-        </inertial>
-        <enable_wind>false</enable_wind>
-      </link>
-      <pose>0 0 0 0 -0 0</pose>
-      <self_collide>false</self_collide>
-    </model>
-    <light name='sunUTC' type='directional'>
-      <pose>0 0 500 0 -0 0</pose>
-      <cast_shadows>true</cast_shadows>
-      <intensity>1</intensity>
-      <direction>0.001 0.625 -0.78</direction>
-      <diffuse>0.904 0.904 0.904 1</diffuse>
-      <specular>0.271 0.271 0.271 1</specular>
-      <attenuation>
-        <range>2000</range>
-        <linear>0</linear>
-        <constant>1</constant>
-        <quadratic>0</quadratic>
-      </attenuation>
-      <spot>
-        <inner_angle>0</inner_angle>
-        <outer_angle>0</outer_angle>
-        <falloff>0</falloff>
-      </spot>
-    </light>
-  </world>
-</sdf>
+<sdf version='1.10'>
+	<world name='default'>
+	  <physics type='ode'>
+	    <max_step_size>0.0040000000000000001</max_step_size>
+	    <real_time_factor>1</real_time_factor>
+	    <real_time_update_rate>250</real_time_update_rate>
+	  </physics>
+	  <plugin name='gz::sim::systems::Physics' filename='gz-sim-physics-system'/>
+	  <plugin name='gz::sim::systems::UserCommands' filename='gz-sim-user-commands-system'/>
+	  <plugin name='gz::sim::systems::SceneBroadcaster' filename='gz-sim-scene-broadcaster-system'/>
+	  <plugin name='gz::sim::systems::Contact' filename='gz-sim-contact-system'/>
+	  <plugin name='gz::sim::systems::Imu' filename='gz-sim-imu-system'/>
+	  <plugin name='gz::sim::systems::AirPressure' filename='gz-sim-air-pressure-system'/>
+	  <plugin name='gz::sim::systems::ApplyLinkWrench' filename='gz-sim-apply-link-wrench-system'/>
+	  <plugin name='gz::sim::systems::Sensors' filename='gz-sim-sensors-system'>
+	    <render_engine>ogre2</render_engine>
+	  </plugin>
+	  <gui fullscreen='false'>
+	    <plugin name='3D View' filename='GzScene3D'>
+	      <gz-gui>
+		<title>3D View</title>
+		<property type='bool' key='showTitleBar'>0</property>
+		<property type='string' key='state'>docked</property>
+	      </gz-gui>
+	      <engine>ogre2</engine>
+	      <scene>scene</scene>
+	      <ambient_light>0.5984631152222222 0.5984631152222222 0.5984631152222222</ambient_light>
+	      <background_color>0.8984631152222222 0.8984631152222222 0.8984631152222222</background_color>
+	      <camera_pose>-6 0 6 0 0.5 0</camera_pose>
+	    </plugin>
+	    <plugin name='World control' filename='WorldControl'>
+	      <gz-gui>
+		<title>World control</title>
+		<property type='bool' key='showTitleBar'>0</property>
+		<property type='bool' key='resizable'>0</property>
+		<property type='double' key='height'>72</property>
+		<property type='double' key='width'>121</property>
+		<property type='double' key='z'>1</property>
+		<property type='string' key='state'>floating</property>
+		<anchors target='3D View'>
+		  <line own='left' target='left'/>
+		  <line own='bottom' target='bottom'/>
+		</anchors>
+	      </gz-gui>
+	      <play_pause>1</play_pause>
+	      <step>1</step>
+	      <start_paused>1</start_paused>
+	    </plugin>
+	    <plugin name='World stats' filename='WorldStats'>
+	      <gz-gui>
+		<title>World stats</title>
+		<property type='bool' key='showTitleBar'>0</property>
+		<property type='bool' key='resizable'>0</property>
+		<property type='double' key='height'>110</property>
+		<property type='double' key='width'>290</property>
+		<property type='double' key='z'>1</property>
+		<property type='string' key='state'>floating</property>
+		<anchors target='3D View'>
+		  <line own='right' target='right'/>
+		  <line own='bottom' target='bottom'/>
+		</anchors>
+	      </gz-gui>
+	      <sim_time>1</sim_time>
+	      <real_time>1</real_time>
+	      <real_time_factor>1</real_time_factor>
+	      <iterations>1</iterations>
+	    </plugin>
+	    <plugin name='Entity tree' filename='EntityTree'/>
+	  </gui>
+	  <gravity>0 0 -9.8000000000000007</gravity>
+	  <magnetic_field>6.0000000000000002e-06 2.3e-05 -4.1999999999999998e-05</magnetic_field>
+	  <atmosphere type='adiabatic'/>
+	  <scene>
+	    <grid>false</grid>
+	    <ambient>0.400000006 0.400000006 0.400000006 1</ambient>
+	    <background>0.699999988 0.699999988 0.699999988 1</background>
+	    <shadows>true</shadows>
+	  </scene>
+	  <model name='Campus'>
+	    <static>true</static>
+	    <link name='floor_1'>
+	      <visual name='visual'>
+		<pose>0 0 -0.25 0 0 0</pose>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/hujp/models/campus/1/files/meshes/Campus_world.obj</uri>
+		  </mesh>
+		</geometry>
+	      </visual>
+	      <collision name='collision'>
+		<pose>0 0 -0.25 0 0 0</pose>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/hujp/models/campus/1/files/meshes/Campus_world.obj</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>31.803845758373654 5.6606742766940528 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>25.792620893946438 21.256375830974459 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_0'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>29.295569843104488 10.320109674242989 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_1'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>20.468123407901061 6.5221554776630839 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_2'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>23.364421201592293 -6.4864363086700365 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_4'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>31.718007357352803 -2.7720407632502599 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_5'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>22.790857418849001 0.86836974511345488 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Pine Tree_6'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/branch_2_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/meshes/pine_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/</uri>
+		    <name>PineTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/pine tree/6/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>16.580183648528134 16.192572711299036 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Oak tree'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/branch_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>26.853406465796297 4.2475746938949808 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Oak tree_0'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/branch_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>33.06371168666638 -6.5981155074944304 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <model name='Oak tree_1'>
+	    <static>true</static>
+	    <link name='link'>
+	      <collision name='collision'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		  </mesh>
+		</geometry>
+	      </collision>
+	      <visual name='branch'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Branch</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <double_sided>true</double_sided>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Branch</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/branch_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <visual name='bark'>
+		<geometry>
+		  <mesh>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/meshes/oak_tree.dae</uri>
+		    <submesh>
+		      <name>Bark</name>
+		    </submesh>
+		  </mesh>
+		</geometry>
+		<material>
+		  <diffuse>1 1 1 1</diffuse>
+		  <script>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/scripts/</uri>
+		    <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/</uri>
+		    <name>OakTree/Bark</name>
+		  </script>
+		  <pbr>
+		    <metal>
+		      <albedo_map>https://fuel.gazebosim.org/1.0/openrobotics/models/oak tree/7/files/materials/textures/bark_diffuse.png</albedo_map>
+		    </metal>
+		  </pbr>
+		</material>
+	      </visual>
+	      <pose>0 0 0 0 0 0</pose>
+	      <inertial>
+		<pose>0 0 0 0 0 0</pose>
+		<mass>1</mass>
+		<inertia>
+		  <ixx>1</ixx>
+		  <ixy>0</ixy>
+		  <ixz>0</ixz>
+		  <iyy>1</iyy>
+		  <iyz>0</iyz>
+		  <izz>1</izz>
+		</inertia>
+	      </inertial>
+	      <enable_wind>false</enable_wind>
+	    </link>
+	    <pose>20.344283666475189 -5.5521267175968463 0 0 0 0</pose>
+	    <self_collide>false</self_collide>
+	  </model>
+	  <light name='sunUTC' type='directional'>
+	    <pose>0 0 500 0 0 0</pose>
+	    <cast_shadows>true</cast_shadows>
+	    <intensity>1</intensity>
+	    <direction>0.001 0.625 -0.78000000000000003</direction>
+	    <diffuse>0.903999984 0.903999984 0.903999984 1</diffuse>
+	    <specular>0.270999998 0.270999998 0.270999998 1</specular>
+	    <attenuation>
+	      <range>2000</range>
+	      <linear>0</linear>
+	      <constant>1</constant>
+	      <quadratic>0</quadratic>
+	    </attenuation>
+	    <spot>
+	      <inner_angle>0</inner_angle>
+	      <outer_angle>0</outer_angle>
+	      <falloff>0</falloff>
+	    </spot>
+	  </light>
+	</world>
+      </sdf>
