@@ -120,7 +120,6 @@ private:
 	bool _armed = false;
 	bool _manual_driving = false;
 	bool _mission_driving = false;
-	bool _first_waypoint_intialized = false;
 
 	hrt_abstime _time_stamp_last{0}; /**< time stamp when task was last updated */
 
